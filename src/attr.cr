@@ -18,7 +18,7 @@ module Mu_WWW_Attr
   end # === def clean
 
   def clean(val : String)
-    Mu_Clean.browser_string val
+    Mu_Clean.escape_html val
   end # === def clean
 
   def clean(val : Int32 | Int64)

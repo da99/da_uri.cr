@@ -2,9 +2,9 @@
 require "html"
 
 module Mu_Clean
-  def browser_string(*args)
+  def escape_html(*args)
     Mu_WWW_Escape.escape(*args)
-  end # === def browser_string
+  end # === def escape_html
 
   def unescape_html(*args)
     Mu_WWW_Escape.unescape(*args)
