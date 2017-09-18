@@ -17,7 +17,7 @@ fi
 case "$ACTION" in
 
   dev)
-    CMD="mu-www watch run-dev"
+    CMD="clean.cr watch run-dev"
     $CMD || :
     mksh_setup watch "-r src -r specs -r bin" "$CMD"
     ;;
@@ -32,7 +32,7 @@ case "$ACTION" in
     ;;
 
   spec)
-    local +x CMD="mu-www spec run"
+    local +x CMD="clean.cr spec run"
 
     $CMD || :
     mksh_setup watch "-r src -r spec -r bin -r sh" "$CMD"

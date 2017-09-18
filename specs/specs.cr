@@ -2,10 +2,9 @@
 
 require "spec"
 
-require "../src/mu-www"
+require "../src/clean"
 require "./uri"
 require "./attr"
-require "./html"
 
 
 

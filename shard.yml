@@ -1,11 +1,5 @@
-name: mu-www
+name: mu_clean
 version: 0.5.0
 
 development_dependencies:
-  shell_out:
-    github: da99/shell_out
-    branch: master
-  exit_on_error:
-    github: da99/exit_on_error
-    branch: master
 

@@ -1,4 +1,10 @@
 
+module Mu_Clean
+  def attr(*args)
+    Mu_WWW_Attr.clean(*args)
+  end # === def attr
+end # === module Mu_Clean
+
 module Mu_WWW_Attr
 
   extend self
@@ -12,7 +18,7 @@ module Mu_WWW_Attr
   end # === def clean
 
   def clean(val : String)
-    Mu_WWW_HTML.escape val
+    Mu_Clean.browser_string val
   end # === def clean
 
   def clean(val : Int32 | Int64)
@@ -64,7 +70,7 @@ module Mu_WWW_Attr
       (val =~ /true|false/i) && attrs
 
     when tag == "script" && name == "src"
-      new_val = Mu_WWW_URI.clean(val)
+      new_val = Mu_Clean_URI.clean(val)
       if new_val.is_a?(String)
         attrs[name] = new_val
         attrs
@@ -85,7 +91,7 @@ module Mu_WWW_Attr
       if val !~ /^\/[a-zA-Z\.0-9\-\_\/]+$/
         return nil
       end
-      new_val = Mu_WWW_URI.clean(val)
+      new_val = Mu_Clean_URI.clean(val)
       if new_val.is_a?(String)
         attrs[name] = new_val
         attrs
@@ -106,7 +112,7 @@ module Mu_WWW_Attr
       attrs
 
     when tag == "a" && name == "href"
-      new_val = Mu_WWW_URI.clean(val)
+      new_val = Mu_Clean_URI.clean(val)
       if new_val.is_a?(String)
         attrs[name] = new_val
         attrs
@@ -118,7 +124,7 @@ module Mu_WWW_Attr
       if val !~ /^\/[a-zA-Z0-9\.\_\-\/]+$/ 
         return nil
       end
-      new_val = Mu_WWW_URI.clean(val)
+      new_val = Mu_Clean_URI.clean(val)
       if new_val.is_a?(String)
         attrs[name] = new_val
         attrs

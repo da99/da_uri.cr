@@ -1,6 +1,16 @@
 
 require "html"
 
+module Mu_Clean
+  def browser_string(*args)
+    Mu_WWW_Escape.escape(*args)
+  end # === def browser_string
+
+  def unescape_html(*args)
+    Mu_WWW_Escape.unescape(*args)
+  end # === def unescape_html
+end # === module Mu_Clean
+
 module Mu_WWW_Escape
 
   VALID_KEY = /^[a-zA-Z0-9\_\-]{1,20}$/

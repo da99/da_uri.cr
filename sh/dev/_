@@ -7,5 +7,5 @@ source "$THIS_DIR/dev/paths.sh"
 cd "$THIS_DIR"
 mkdir -p tmp
 cd tmp
-crystal build ../src/mu-www.cr
-echo "=== Wrote: tmp/mu-www"
+crystal build ../src/clean.cr
+echo "=== Wrote: tmp/clean.cr"
