@@ -1,7 +1,7 @@
 clean.cr
 ==========
 
-Utilities to generate and clean WWW-releated content.
+Functions to clean HTML-releated content.
 Written as a Crystal shard.
 
 Usage
