@@ -12,7 +12,7 @@ Usage
 
   Mu_Clean.attr("input", {"type"=>"hidden", "value"=>"my val"})
   Mu_Clean.attr("meta", {"name"=>"keywords", "content"=>" <my content> "})
-  Mu_Clean.www_string("my <html>")
+  Mu_Clean.browser_string("my <html>")
   Mu_Clean.uri("http://my.uri")
 ```
 
