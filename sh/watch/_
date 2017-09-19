@@ -1,60 +1,33 @@
-#!/usr/bin/env mksh
+#!/usr/bin/env zsh
 #
 # === {{CMD}}
 # === {{CMD}} dev|spec
+# === {{CMD}} my special cmd
 #
 set -u -e -o pipefail
 
 PATH="$PATH:$THIS_DIR/../sh_color/bin"
 PATH="$PATH:$THIS_DIR/../my_crystal/bin"
+PATH="$PATH:$THIS_DIR/../process/bin"
 
 if [[ -z "$@" ]]; then
-  local +x ACTION="dev"
+  local +x ACTION="specs"
 else
   local +x ACTION="$1"; shift
 fi
 
 case "$ACTION" in
 
-  dev)
-    CMD="clean.cr watch run-dev"
-    $CMD || :
-    mksh_setup watch "-r src -r specs -r bin" "$CMD"
-    ;;
-
-  run-dev)
-    echo "=== Compiling..." >&2
-    mkdir -p tmp
-    my_crystal build specs/specs.cr -o tmp/specs
-    echo "=== Running... $(date "+%H:%M:%S") ..." >&2
-    tmp/specs
-    sh_color GREEN "=== {{Done}}"
-    ;;
-
-  spec)
-    local +x CMD="clean.cr spec run"
-
-    $CMD || :
-    mksh_setup watch "-r src -r spec -r bin -r sh" "$CMD"
-    ;;
-
-  convert)
-    CMD="mu-clean watch run-convert"
-    $CMD || :
-    mksh_setup watch-file "tmp/convert.cr" "$CMD"
-    ;;
-
-  run-convert)
-    echo "=== Compiling..."
-    my_crystal build tmp/convert.cr -o tmp/convert
-    echo "=== Running..."
-    tmp/convert
-    sh_color GREEN "=== {{Done}}"
+  specs)
+    CMD="clean.cr specs run $@"
+    ${=CMD} || :
+    process watch "-r src -r specs -r bin" "$CMD"
     ;;
 
   *)
-    echo "!!! Invalid option: $@" >&2
-    exit
+    local +x cmd="$ACTION $@"
+    ${cmd} || :
+    mksh_setup watch "-r src -r specs -r bin" ${cmd}
     ;;
 
 esac

@@ -1,4 +1,6 @@
 
+
+Hello_1 = "Hello & World ©®∆"
 BRACKET = "
 < %3C &lt &lt; &LT &LT; &#60 &#060 &#0060
 &#00060 &#000060 &#0000060 &#60; &#060; &#0060; &#00060;
@@ -36,13 +38,14 @@ describe "Mu_Clean.escape_html" do
 
     it "returns nil if nb (non-breaking) spaces (160 codepoint)" do
       str = codepoints_to_string [160, 160,64, 116, 119, 101, 108, 108, 121, 109, 101, 160, 102, 105, 108, 109]
+      # "**@twellyme*film"
 
-      assert "@twellyme film", :==, Mu_Clean.string(str)
+      assert nil, :==, Mu_Clean.string(str)
     end
 
     it "replaces tabs with spaces" do
       s = "a\t \ta"
-      assert "a   a", :==, Mu_Clean.string(s)
+      assert "a     a", :==, Mu_Clean.string(s)
     end
 
   end # === describe :clean_utf8 ===
@@ -55,13 +58,13 @@ describe "Mu_Clean.escape_html" do
       assert "<p>Hi&</p>", :==, Mu_Clean.unescape_html(s);
     end
 
-    it "un-escapes special chars: "Hello ©®∆"" do
+    it "un-escapes special chars: \"#{Hello_1}\"" do
       s = "Hello &amp; World &#169;&#174;&#8710;"
-      t = "Hello & World ©®∆"
+      t = Hello_1
       assert t, :==, Mu_Clean.unescape_html(s)
     end
 
-    it "un-escapes all 70 different combos of "<"" do
+    it "un-escapes all 70 different combos of '<'" do
       assert "< %3C", :==, Mu_Clean.unescape_html(BRACKET).split.uniq.join(" ")
     end
 
@@ -83,7 +86,7 @@ describe "Mu_Clean.escape_html" do
       assert t, :==, Mu_Clean.escape_html(s)
     end
 
-    it "escapes all 70 different combos of "<"" do
+    it "escapes all 70 different combos of '<'" do
       assert "&lt; %3C", :==, Mu_Clean.escape_html(BRACKET).split.uniq.join(" ")
     end
 

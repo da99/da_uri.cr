@@ -6,17 +6,18 @@
 #
 
 local +x SPEC_TMP="$THIS_DIR/tmp/spec/run"
+local +x ACTION="$1"; shift
 
-case "$1" in
+case "$ACTION" in
 
   run)
     cd "$THIS_DIR"
     mkdir -p tmp
-    local +x output=tmp/spec
-    echo "=== Compiling specs: $output"
+    local +x output=tmp/specs
+    echo "=== Compiling specs: $output $@"
     my_crystal build specs/specs.cr -o $output
-    echo "=== Running specs: $output"
-    $output
+    echo "=== Running specs: $output $@"
+    $output $@
     sh_color GREEN "=== {{DONE}} ==="
     ;;
 
