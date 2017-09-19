@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
 #
-# === {{CMD}}
-# === {{CMD}} dev|spec
-# === {{CMD}} my special cmd
+# === {{CMD}}       # defaults to specs
+# === {{CMD}} specs [ cmd to spec compiled binary]
 #
 set -u -e -o pipefail
 
