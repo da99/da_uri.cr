@@ -1,6 +1,5 @@
 
 require "uri"
-require "./Escape"
 
 module Mu_Clean
   def uri(*args)

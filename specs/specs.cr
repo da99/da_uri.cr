@@ -1,11 +1,10 @@
 
+require "../src/clean"
 
 require "spec"
-
-require "../src/clean"
-require "./uri"
 require "./attr"
-
+require "./uri"
+require "./html"
 
 
 
