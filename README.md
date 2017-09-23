@@ -16,7 +16,7 @@ Usage
 =============
 
 ```crystal
-  require "clean"
+  require "da_uri"
 
   DA_URI.clean("http://my.uri")
 ```
