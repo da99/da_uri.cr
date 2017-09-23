@@ -11,6 +11,7 @@ if [[ ! -z "$@" ]]; then
   ACTION="$1"; shift
 fi
 
+PATH="$PATH:$THIS_DIR/../process/bin"
 PATH="$PATH:$THIS_DIR/../mksh_setup/bin"
 PATH="$PATH:$THIS_DIR/../my_crystal/bin"
 PATH="$PATH:$THIS_DIR/../sh_color/bin"

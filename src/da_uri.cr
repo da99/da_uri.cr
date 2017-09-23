@@ -1,4 +1,5 @@
 
+require "da_html"
 require "uri"
 
 module DA_URI
@@ -65,13 +66,8 @@ module DA_URI
     fin = u.normalize.to_s.strip
     return nil if fin == ""
     return nil if empty?(u.host) && empty?(u.path) && empty?(u.fragment)
-    HTML.escape(escape_non_ascii(fin))
+    DA_HTML.escape(escape_non_ascii(fin))
   end # === def normalize
-
-  def cntrl_chars(s : String)
-    return nil if s =~ CNTRL_CHARS
-    s
-  end # === def cntrl_chars
 
   def escape_non_ascii(s : String)
     s.gsub( /[^[:ascii:]]+/ ) do | str |
@@ -102,7 +98,6 @@ module DA_URI
 
   def clean(raw : String)
     raw = DA_HTML.unescape!(raw.strip)
-    raw = cntrl_chars(raw)
     return nil unless raw
 
     u = URI.parse(raw)

@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 #
 
+# === {{CMD}}  watch
 # === {{CMD}}  run
 # === {{CMD}}  new  name-of-spec
 #
@@ -9,6 +10,12 @@ local +x SPEC_TMP="$THIS_DIR/tmp/spec/run"
 local +x ACTION="$1"; shift
 
 case "$ACTION" in
+
+  watch)
+    CMD="da_uri.cr specs run $@"
+    ${=CMD} || :
+    process watch "-r src -r specs -r bin" "$CMD"
+    ;;
 
   run)
     cd "$THIS_DIR"
