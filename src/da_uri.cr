@@ -1,13 +1,7 @@
 
 require "uri"
 
-module Mu_Clean
-  def uri(*args)
-    Mu_Clean_URI.clean *args
-  end # === def clean
-end # === module Mu_Clean
-
-module Mu_Clean_URI
+module DA_URI
 
   extend self
 
@@ -107,7 +101,7 @@ module Mu_Clean_URI
   end # === def host
 
   def clean(raw : String)
-    raw = Mu_Clean.unescape_html(raw.strip)
+    raw = DA_HTML.unescape!(raw.strip)
     raw = cntrl_chars(raw)
     return nil unless raw
 
@@ -254,4 +248,4 @@ module Mu_Clean_URI
     u
   end # === def default_scheme
 
-end # === module Mu_Clean_URI
+end # === module DA_URI

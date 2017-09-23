@@ -1,7 +1,7 @@
-clean.cr
+da\_uri.cr
 ==========
 
-A Crystal shard full of functions to clean HTML-releated content.
+A Crystal shard to clean up URIs.
 
 You don't want to use this shard because it's too specific for my needs.
 it's very strict and only allows `http`, `https`, `ftp`, `sftp`.
@@ -18,10 +18,7 @@ Usage
 ```crystal
   require "clean"
 
-  Mu_Clean.attr("input", {"type"=>"hidden", "value"=>"my val"})
-  Mu_Clean.attr("meta", {"name"=>"keywords", "content"=>" <my content> "})
-  Mu_Clean.escape_html("my <html>")
-  Mu_Clean.uri("http://my.uri")
+  DA_URI.clean("http://my.uri")
 ```
 
 Specs

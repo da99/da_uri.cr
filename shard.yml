@@ -1,5 +1,8 @@
-name: mu_clean
-version: 0.5.0
+name: da_uri
+version: 0.0.1
 
 development_dependencies:
+  da_html:
+    github: da99/da_html.cr
+    branch: master
 
