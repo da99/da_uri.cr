@@ -44,12 +44,12 @@ describe "DA_URI.clean" do
     DA_URI.clean("/my/story/goes/here").should(eq "/my/story/goes/here")
   end
 
-  it "single quotes are escaped" do
-    DA_URI.clean("http://www.'.com/something").should(eq "http://www.&#39;.com/something")
+  it "should escape single quotes" do
+    DA_URI.clean("http://www.'.com/something").should(eq "http://www.&#x27;.com/something")
   end
 
-  it "double quotes are escaped" do
-    DA_URI.clean("http://double.\".quotes/are/escaped").should(eq "http://double.&quot;.quotes/are/escaped")
+  it "should should escape double quotes to HTML entities" do
+    DA_URI.clean("http://double.\".quotes/are/escaped").should(eq "http://double.&#x22;.quotes/are/escaped")
   end
 
   it "rejects if cntrl chars" do
@@ -105,24 +105,29 @@ describe "DA_URI.clean" do
     DA_URI.clean("https:example.com").should(eq nil)
   end
 
-  it "adds http if scheme is missing" do
+  it "should set scheme to \"http\" if scheme is missing" do
     DA_URI.clean("www.my.dot.orh").should(eq "http://www.my.dot.orh")
     DA_URI.clean("dot.orh").should(eq "http://dot.orh")
-    DA_URI.clean("dot.orh/my/path?a=b").should(eq "http://dot.orh/my/path?a&#61;b")
+    DA_URI.clean("dot.orh/my/path?a=b").should(eq "http://dot.orh/my/path?a=b")
     DA_URI.clean("about/me").should(eq "http://about/me")
     DA_URI.clean("about/me.txt").should(eq "http://about/me.txt")
     DA_URI.clean("about.me/txt").should(eq "http://about.me/txt")
     DA_URI.clean("about/me/something").should(eq "http://about/me/something")
-    DA_URI.clean("javascript//:alert(\"2\")").should(eq "http://javascript//:alert&#40;&quot;2&quot;&#41;")
-    DA_URI.clean("javascript/:/alert(\"4\")").should(eq "http://javascript/:/alert&#40;&quot;4&quot;&#41;")
-    DA_URI.clean("data//:text/html;base64,PHNjcmlwdD5hbGVydCgnMycpPC9zY3JpcHQ+").should(eq "http://data//:text/html;base64,PHNjcmlwdD5hbGVydCgnMycpPC9zY3JpcHQ&#43;")
-    DA_URI.clean("data/:/text/html;base64,PHNjcmlwdD5hbGVydCgnNCcpPC9zY3JpcHQ+").should(eq "http://data/:/text/html;base64,PHNjcmlwdD5hbGVydCgnNCcpPC9zY3JpcHQ&#43;")
-    DA_URI.clean("htt$p://example.com").should(eq "http://htt&#36;p://example.com")
-    DA_URI.clean("j%avascript:alert(\"XSS\")").should(eq "http://j&#37;avascript:alert&#40;&quot;XSS&quot;&#41;")
-    DA_URI.clean("htДtp://example.com").should(eq "http://ht&#37;D0&#37;94tp://example.com")
-    DA_URI.clean("htДtp://example.com").should(eq "http://ht&#37;D0&#37;94tp://example.com")
-    DA_URI.clean("htt$p://example.com").should(eq "http://htt&#36;p://example.com")
-    DA_URI.clean("j%avascript:alert(\"XSS\")").should(eq "http://j&#37;avascript:alert&#40;&quot;XSS&quot;&#41;")
+    DA_URI.clean("data//:text/html;base64,PHNjcmlwdD5hbGVydCgnMycpPC9zY3JpcHQ+").should(eq "http://data//:text/html;base64,PHNjcmlwdD5hbGVydCgnMycpPC9zY3JpcHQ+")
+    DA_URI.clean("data/:/text/html;base64,PHNjcmlwdD5hbGVydCgnNCcpPC9zY3JpcHQ+").should(eq "http://data/:/text/html;base64,PHNjcmlwdD5hbGVydCgnNCcpPC9zY3JpcHQ+")
+
+    DA_URI.clean("htt$p://example.com").should(eq "http://htt$p://example.com")
+    # DA_URI.clean("htt$p://example.com").should(eq "http://htt&#36;p://example.com")
+
+    DA_URI.clean("htДtp://example.com").should(eq "http://ht&#x414;tp://example.com")
+    DA_URI.clean("htДtp://example.com").should(eq "http://ht&#x414;tp://example.com")
+
+
+    DA_URI.clean("j%avascript:alert(\"XSS\")").should(eq "http://j%avascript:alert(&#x22;XSS&#x22;)")
+    DA_URI.clean("j%avascript:alert(\"XSS\")").should(eq "http://j%avascript:alert(&#x22;XSS&#x22;)")
+
+    DA_URI.clean("javascript//:alert(\"2\")").should(eq "http://javascript//:alert(&#x22;2&#x22;)")
+    DA_URI.clean("javascript/:/alert(\"4\")").should(eq "http://javascript/:/alert(&#x22;4&#x22;)")
   end
 
   it "rejects evil strings Unicode encoded" do
@@ -158,13 +163,13 @@ describe "DA_URI.clean" do
     DA_URI.clean("http://someone%40gmail.com:password@example.com").should(eq "http://example.com")
   end
 
-  it "URL-encodes code points outside ASCII" do
+  it "should URL-encode code points outside ASCII in host" do
     DA_URI.clean("http://&#1044;").should(eq "http://&#37;D0&#37;94")
     DA_URI.clean("http://&#x0414;").should(eq "http://&#37;D0&#37;94")
     DA_URI.clean("http://Д").should(eq "http://&#37;D0&#37;94")
   end
 
-  it "URL-encodes code points outside ASCII in path" do
+  it "should URL-encode code points outside ASCII in path" do
     DA_URI.clean("http://a/Д/Д").should(eq "http://a/&#37;D0&#37;94/&#37;D0&#37;94")
     DA_URI.clean("http://a/a/b/cД/Д").should(eq "http://a/a/b/c&#37;D0&#37;94/&#37;D0&#37;94")
     DA_URI.clean("http://a/a/b/Д/d").should(eq "http://a/a/b/&#37;D0&#37;94/d")

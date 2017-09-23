@@ -63,26 +63,33 @@ module DA_URI
   end # === def normalize
 
   def normalize(u : URI)
+    return nil if empty?(u.host) && empty?(u.path) && empty?(u.fragment)
+
     fin = u.normalize.to_s.strip
     return nil if fin == ""
-    return nil if empty?(u.host) && empty?(u.path) && empty?(u.fragment)
-    DA_HTML.escape(escape_non_ascii(fin))
+
+    fin
   end # === def normalize
 
   def escape_non_ascii(s : String)
-    s.gsub( /[^[:ascii:]]+/ ) do | str |
-      URI.escape(str)
-    end
+    return nil unless s.valid_encoding?
+    io = IO::Memory.new
+    s.codepoints.each { |x|
+      next if x <= 31 || x == 127
+      io << x.chr if x < 127
+      io << URI.escape(x.chr)
+    }
+    io.to_s
   end # === def escape_non_ascii
 
   def host(s : String)
     return nil if s =~ WHITE_SPACE
     return nil if s.empty?
 
-    decoded = URI.unescape(s)
+    decoded = DA_HTML.unescape!( URI.unescape(s) )
     return nil if decoded != s
 
-    escape_non_ascii(s)
+    s
   end # === def host
 
   def host(u : URI)
@@ -117,8 +124,15 @@ module DA_URI
     # safe.
     return nil if origin_scheme && !u.scheme
     u = default_scheme(u)
+    return nil unless u
+
     u = require_slash_for_relative_urls(u)
-    normalize(u)
+    return nil unless u
+
+    u = normalize(u)
+    return nil unless u
+
+    DA_HTML.escape(u)
   end # === def escape
 
   # ===========================================================================

@@ -18,6 +18,7 @@ case "$ACTION" in
     ;;
 
   run)
+    reset
     cd "$THIS_DIR"
     mkdir -p tmp
     local +x output=tmp/specs
