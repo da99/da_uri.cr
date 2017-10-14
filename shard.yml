@@ -2,7 +2,7 @@ name: da_uri
 version: 1.0.0
 
 development_dependencies:
-  da_html:
-    github: da99/da_html.cr
+  da_html_escape:
+    github: da99/da_html_escape.cr
     branch: master
 

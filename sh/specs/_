@@ -7,7 +7,11 @@
 #
 
 local +x SPEC_TMP="$THIS_DIR/tmp/spec/run"
-local +x ACTION="$1"; shift
+if [[ -z "$@" ]]; then
+  local +x ACTION="watch"
+else
+  local +x ACTION="$1"; shift
+fi
 
 case "$ACTION" in
 
