@@ -1,5 +1,5 @@
 
-require "da_html"
+require "da_html_escape"
 require "uri"
 
 module DA_URI
@@ -86,7 +86,7 @@ module DA_URI
     return nil if s =~ WHITE_SPACE
     return nil if s.empty?
 
-    decoded = DA_HTML.unescape!( URI.unescape(s) )
+    decoded = DA_HTML_ESCAPE.unescape!( URI.unescape(s) )
     return nil if decoded != s
 
     s
@@ -104,7 +104,7 @@ module DA_URI
   end # === def host
 
   def clean(raw : String)
-    raw = DA_HTML.unescape!(raw.strip)
+    raw = DA_HTML_ESCAPE.unescape!(raw.strip)
     return nil unless raw
 
     u = URI.parse(raw)
@@ -132,7 +132,7 @@ module DA_URI
     u = normalize(u)
     return nil unless u
 
-    DA_HTML.escape(u)
+    DA_HTML_ESCAPE.escape(u)
   end # === def escape
 
   # ===========================================================================

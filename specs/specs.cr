@@ -164,15 +164,15 @@ describe "DA_URI.clean" do
   end
 
   it "should URL-encode code points outside ASCII in host" do
-    DA_URI.clean("http://&#1044;").should(eq "http://&#37;D0&#37;94")
-    DA_URI.clean("http://&#x0414;").should(eq "http://&#37;D0&#37;94")
-    DA_URI.clean("http://Д").should(eq "http://&#37;D0&#37;94")
+    DA_URI.clean("http://&#x0414;").should(eq "http://&#x414;")
+    DA_URI.clean("http://&#1044;").should(eq "http://&#x414;")
+    DA_URI.clean("http://Д").should(eq "http://&#x414;")
   end
 
   it "should URL-encode code points outside ASCII in path" do
-    DA_URI.clean("http://a/Д/Д").should(eq "http://a/&#37;D0&#37;94/&#37;D0&#37;94")
-    DA_URI.clean("http://a/a/b/cД/Д").should(eq "http://a/a/b/c&#37;D0&#37;94/&#37;D0&#37;94")
-    DA_URI.clean("http://a/a/b/Д/d").should(eq "http://a/a/b/&#37;D0&#37;94/d")
+    DA_URI.clean("http://a/Д/Д").should(eq "http://a/&#x414;/&#x414;")
+    DA_URI.clean("http://a/a/b/cД/Д").should(eq "http://a/a/b/c&#x414;/&#x414;")
+    DA_URI.clean("http://a/a/b/Д/d").should(eq "http://a/a/b/&#x414;/d")
   end
 
   it "rejects URLS with schemes only" do
