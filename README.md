@@ -26,3 +26,8 @@ Specs
 
 Specs for this shard was inspired by:
   * https://github.com/jarrett/sanitize-url/tree/master/spec
+
+TODO:
+====
+
+* koa-uri-sanitize: https://github.com/tilap/koa-sanitize-uri
