@@ -1,24 +1,22 @@
 #!/usr/bin/env zsh
 #
-# === {{CMD}}       # defaults to specs
-# === {{CMD}} specs [ cmd to spec compiled binary]
+# === {{CMD}}       # defaults to: "{{BIN}} specs"
 #
 set -u -e -o pipefail
 
 
 if [[ -z "$@" ]]; then
-  local +x ACTION="specs"
+  local +x ACTION="$THIS_NAME specs"
 else
   local +x ACTION="$1"; shift
 fi
 
 case "$ACTION" in
 
-
   *)
     local +x cmd="$ACTION $@"
     ${cmd} || :
-    mksh_setup watch "-r src -r specs -r bin" ${cmd}
+    process watch "-r src -r specs -r bin" ${cmd}
     ;;
 
 esac

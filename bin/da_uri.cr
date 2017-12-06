@@ -5,6 +5,7 @@ set -u -e -o pipefail
 
 local +x THE_ARGS="$@"
 local +x THIS_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
+local +x THIS_NAME="$(basename "$THIS_DIR")"
 
 local +x ACTION="[none]"
 if [[ ! -z "$@" ]]; then
@@ -12,7 +13,7 @@ if [[ ! -z "$@" ]]; then
 fi
 
 PATH="$PATH:$THIS_DIR/../process/bin"
-PATH="$PATH:$THIS_DIR/../mksh_setup/bin"
+PATH="$PATH:$THIS_DIR/../my_zsh/bin"
 PATH="$PATH:$THIS_DIR/../my_crystal/bin"
 PATH="$PATH:$THIS_DIR/../sh_color/bin"
 PATH="$PATH:$THIS_DIR/bin"
@@ -20,7 +21,7 @@ PATH="$PATH:$THIS_DIR/bin"
 case $ACTION in
 
   help|--help|-h)
-    mksh_setup print-help $0 "$@"
+    my_zsh print-help $0 "$@"
     ;;
 
   *)

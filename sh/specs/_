@@ -27,7 +27,7 @@ case "$ACTION" in
     mkdir -p tmp
     local +x output=tmp/specs
     echo "=== Compiling specs: $output $@"
-    my_crystal build specs/specs.cr -o $output
+    my_crystal __ build specs/specs.cr -o $output
     echo "=== Running specs: $output $@"
     $output $@
     sh_color GREEN "=== {{DONE}} ==="
